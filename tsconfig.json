@@ -17,7 +17,15 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/services/*": ["services/*"],
+      "@/types/*": ["types/*"],
+      "@/config/*": ["config/*"],
+      "@/context/*": ["context/*"],
+      "@/routes/*": ["routes/*"],
+      "@/helpers/*": ["helpers/*"]
     }
   },
   "include": ["src"],

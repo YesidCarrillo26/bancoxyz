@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { BalanceCard } from "../components/BalanceCard";
-import { ActionCards } from "../components/ActionCards";
-import { Navbar } from "../components/Navbar";
+import { useAuth } from "../../context/AuthContext";
+import { BalanceCard } from "@/components/BalanceCard";
+import { ActionCards } from "@/components/ActionCards";
+import { Navbar } from "@/components/Navbar";
 
 export const HomePage = () => {
   const navigate = useNavigate();

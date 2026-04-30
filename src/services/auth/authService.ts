@@ -1,7 +1,7 @@
-import axiosClient from '../config/axiosClient';
-import { API_ENDPOINTS } from '../config/api';
-import { LoginRequest, LoginResponse } from '../types/Auth';
-import { getErrorMessage } from '../helpers/serviceError';
+import axiosClient from '../../config/axiosClient';
+import { API_ENDPOINTS } from '../../config/api';
+import { LoginRequest, LoginResponse } from '../../types/Auth';
+import { getErrorMessage } from '../../helpers/serviceError';
 
 export const authService = {
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {

@@ -1,7 +1,7 @@
 import { BuildingLibraryIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 interface FieldErrors {
   email: string;

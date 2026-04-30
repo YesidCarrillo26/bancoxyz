@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { authService } from '../services/authService';
-import { User, AuthContextType } from '../types/Auth';
+import { authService } from '@/services/auth/authService';
+import { User, AuthContextType } from '@/types/Auth';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

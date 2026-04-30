@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { LoginPage } from "./pages/LoginPage";
-import { HomePage } from "./pages/HomePage";
-import { NewTransferPage } from "./pages/NewTransferPage";
-import { HistoryTransferPage } from "./pages/HistoryTransferPage";
-import { ProtectedRoute, GuestRoute } from './routes/ProtectedRoute';
-import { AuthProvider } from "./context/AuthContext";
+import { LoginPage } from "@/pages/auth/LoginPage";
+import { HomePage } from "@/pages/home/HomePage";
+import { NewTransferPage } from "@/pages/app/NewTransferPage";
+import { HistoryTransferPage } from "@/pages/app/HistoryTransferPage";
+import { ProtectedRoute, GuestRoute } from '@/routes/ProtectedRoute';
+import { AuthProvider } from "@/context/AuthContext";
 
 
 function App() {
