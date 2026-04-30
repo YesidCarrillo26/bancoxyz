@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { balanceService } from '../services/balanceService';
+import { balanceService } from '../services/balance/balanceService';
 import { BalanceResponse } from '../types/Balance';
 import formatCurrency from '../helpers/currency';
 
