@@ -1,14 +1,13 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { Express } from 'express';
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const endpoints: Record<string, string | undefined> = {
+const endpoints = {
   '/api/login': process.env.REACT_APP_API_LOGIN,
   '/api/balance': process.env.REACT_APP_API_BALANCE,
   '/api/transfer': process.env.REACT_APP_API_TRANSFER,
   '/api/transferList': process.env.REACT_APP_API_TRANSFER_LIST,
 };
 
-export default function setupProxy(app: Express): void {
+module.exports = function setupProxy(app) {
   Object.entries(endpoints).forEach(([proxyPath, fullUrl]) => {
     if (!fullUrl) return;
     const { origin, pathname } = new URL(fullUrl);
@@ -17,8 +16,8 @@ export default function setupProxy(app: Express): void {
       createProxyMiddleware({
         target: origin,
         changeOrigin: true,
-        pathRewrite: { [`^${proxyPath}`]: pathname },
+        pathRewrite: { '^/': pathname },
       })
     );
   });
-}
+};

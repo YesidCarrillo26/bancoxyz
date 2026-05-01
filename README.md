@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# BancoXYZ - Aplicación de Transferencias Bancarias
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sistema web de transferencias bancarias construido con React, TypeScript y Tailwind CSS.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+Aplicación financiera que permite:
+- Autenticación de usuarios
+- Visualización de saldo disponible
+- Realizar transferencias bancarias
+- Historial de transferencias con filtrado avanzado
 
-### `npm start`
+## Tecnologías
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend Framework:** React 19 con TypeScript
+- **Routing:** React Router v7
+- **HTTP Client:** Axios con proxy middleware
+- **Estilos:** Tailwind CSS
+- **Testing:** Jest + React Testing Library
+- **Build Tool:** react-scripts (CRA 5)
+- **Icons:** Heroicons
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Arquitectura
 
-### `npm test`
+```
+src/
+├── pages/
+│   ├── app/
+│   │   ├── HistoryTransferPage.tsx    # Historial con filtros
+│   │   └── NewTransferPage.tsx        # Formulario transferencias
+│   ├── auth/
+│   │   └── LoginPage.tsx              # Autenticación
+│   └── home/
+│       └── HomePage.tsx               # Dashboard principal
+├── components/                        # Componentes reutilizables
+│   ├── ActionCards.tsx
+│   ├── BalanceCard.tsx
+│   ├── Navbar.tsx
+│   ├── PageHeader.tsx
+│   ├── TransferFilters.tsx
+│   └── TransferList.tsx
+├── services/
+│   ├── auth/
+│   │   └── authService.ts
+│   ├── balance/
+│   │   └── balanceService.ts
+│   └── transfer/
+│       └── transferService.ts
+├── context/
+│   └── AuthContext.tsx
+├── routes/
+│   └── ProtectedRoute.tsx
+├── helpers/
+│   ├── currency.ts
+│   └── serviceError.ts
+├── types/
+│   ├── Auth.ts
+│   ├── Balance.ts
+│   └── Transfer.ts
+├── config/
+│   ├── api.ts
+│   └── axiosClient.ts
+├── setupProxy.ts
+└── App.tsx
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Instalación
 
-### `npm run build`
+### Requisitos
+- Node.js 16+
+- npm
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Pasos
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone <repository-url>
+cd bancoxyz
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Variables de entorno
 
-### `npm run eject`
+Crear `.env` con las URLs completas de la API (obligatorias para que funcione):
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```env
+REACT_APP_API_LOGIN=https://dominio.com/default/login
+REACT_APP_API_BALANCE=https://dominio.com/default/balance
+REACT_APP_API_TRANSFER=https://dominio.com/default/transfer
+REACT_APP_API_TRANSFER_LIST=https://dominio.com/default/transferList
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> **Requerido:** Cada variable debe contener la URL completa de su endpoint correspondiente. Sin estas variables, la aplicación no podrá conectarse a la API.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Ejecución
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Desarrollo
+```bash
+npm start
+```
+Inicia servidor en `http://localhost:3000`. El proxy redirige `/api/*` a los endpoints configurados en `.env`.
 
-## Learn More
+### Tests
+```bash
+# Watch mode
+npm test
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Cobertura
+npm run coverage
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Build
+```bash
+npm run build
+```
 
-### Code Splitting
+## Cobertura de Tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**7 suites · 27 tests** ✓
 
-### Analyzing the Bundle Size
+| Módulo | Cobertura |
+|--------|-----------|
+| App.tsx | ✓ |
+| context/AuthContext | ✓ login, logout, hydrate, error |
+| pages/auth/LoginPage | ✓ validación, happy path, API error |
+| pages/app/NewTransferPage | ✓ validación, happy path, API error, cancel |
+| pages/app/HistoryTransferPage | ✓ list, error, filtros x3, no results |
+| pages/home/HomePage | ✓ logout flow |
+| routes/ProtectedRoute | ✓ auth/guest routes |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+> Threshold mínimo: 80% branches/functions/lines/statements  
+> Excluidos: `config/`, `helpers/`, `components/`, tipos
 
-### Making a Progressive Web App
+## Flujo de la Aplicación
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Login** → `POST /api/login` → token en localStorage
+2. **Home** → `GET /api/balance` → dashboard con saldo
+3. **New Transfer** → validación en cliente → `POST /api/transfer`
+4. **History** → `GET /api/transferList` → filtrado local por nombre/monto/fecha
 
-### Advanced Configuration
+## Endpoints API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/login` | Autenticar usuario |
+| GET | `/api/balance` | Obtener saldo actual |
+| POST | `/api/transfer` | Realizar transferencia |
+| GET | `/api/transferList` | Obtener historial |
 
-### Deployment
+## Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- ✓ Validación de formularios en cliente
+- ✓ Manejo centralizado de errores HTTP
+- ✓ Autenticación JWT (token en localStorage)
+- ✓ Rutas protegidas y rutas de invitado
+- ✓ Filtrado dinámico sin refetch (nombre, monto, fecha)
+- ✓ Formateo de monedas por locale
+- ✓ Loading states y skeletons
+- ✓ Path aliases `@/` en TypeScript y Jest
+- ✓ Proxy de desarrollo para CORS
+- ✓ Responsive design (Tailwind CSS)
